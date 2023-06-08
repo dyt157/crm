@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjpowernode.crm.setting.mapper.UserMapper">
+    <resultMap id="userResultMap" type="user">
+        <id property="id" column="id"/>
+        <result column="login_act" property="loginAct"/>
+        <result column="login_pwd" property="loginPwd"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="expire_time" property="expireTime"/>
+        <result column="lock_state" property="lockState"/>
+        <result column="deptno" property="deptno"/>
+        <result column="allow_ips" property="allowIps"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="edit_by" property="editBy"/>
+        <result column="edit_time" property="editTime"/>
+    </resultMap>
+    <sql id="userSql">
+        id,login_act,login_pwd,name,email,expire_time,lock_state,deptno,allow_ips,
+            create_by,create_time,edit_by,edit_time
+    </sql>
+
+    <select id="selectUserByActAndPwd" resultMap="userResultMap">
+        select
+        <include refid="userSql"></include>
+        from tbl_user where login_act = #{loginAct} and login_pwd = #{loginPwd}
+    </select>
+
+    <select id="selectAllUser" resultMap="userResultMap">
+        select
+        <include refid="userSql"></include>
+        from tbl_user;
+    </select>
+</mapper>
