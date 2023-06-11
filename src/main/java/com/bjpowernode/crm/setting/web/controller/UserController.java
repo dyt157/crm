@@ -54,7 +54,7 @@ public class UserController {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("loginAct",loginActCookieVal);
                 map.put("loginPwd",loginPwdCookieVal);
-                request.getSession().setAttribute("user",userService.queryUserByActAndPwd(map));
+                request.getSession().setAttribute(Constant.SESSION_USER,userService.queryUserByActAndPwd(map));
                 return "redirect:/workbench/toIndex";
             }
         }
@@ -95,7 +95,7 @@ public class UserController {
                 //登录成功
                 returnObject.setCode(Constant.RETURN_CODE_SUCCESS);
                 //把user对象存放到session域中
-                request.getSession().setAttribute("user",user);
+                request.getSession().setAttribute(Constant.SESSION_USER,user);
 
                 //登录成功，判断用户是否需要免登录
                 if (isRemAP){

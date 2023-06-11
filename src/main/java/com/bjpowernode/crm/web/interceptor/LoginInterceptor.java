@@ -1,5 +1,6 @@
 package com.bjpowernode.crm.web.interceptor;
 
+import com.bjpowernode.crm.commons.constant.Constant;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.Cookie;
@@ -20,7 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                              Object handler) throws Exception {
         //尝试从session域或者Cookie中获取用户信息，能否获取到
         //从Cookie中获取的过程较为繁琐，我们这里就试着获取Session域中的数据
-        Object user = request.getSession().getAttribute("user");
+        Object user = request.getSession().getAttribute(Constant.SESSION_USER);
         if (user==null){
             //没有登录，跳转到登录页面（或者首页）
             System.out.println("没有登录");

@@ -9,6 +9,11 @@
     </settings>
     <typeAliases>
         <package name="com.bjpowernode.crm.setting.pojo"/>
+        <package name="com.bjpowernode.crm.workbench.pojo"/>
     </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
 </configuration>
 

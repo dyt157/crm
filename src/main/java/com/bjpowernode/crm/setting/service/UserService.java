@@ -16,4 +16,6 @@ public interface UserService {
     User queryUserByActAndPwd(Map<String,String> map);
 
     List<User> queryAllUser();
+
+    User queryUserByName(String name);
 }

@@ -10,7 +10,7 @@ public class ReturnObject {
 
     private String code;//成功或者失败的代号
     private String message;//对于成功或者失败的描述信息
-    private Object returnDate;//其他的一些返回数据
+    private Object returnData;//其他的一些返回数据
 
     public String getCode() {
         return code;
@@ -28,12 +28,12 @@ public class ReturnObject {
         this.message = message;
     }
 
-    public Object getReturnDate() {
-        return returnDate;
+    public Object getReturnData() {
+        return returnData;
     }
 
-    public void setReturnDate(Object returnDate) {
-        this.returnDate = returnDate;
+    public void setReturnData(Object returnData) {
+        this.returnData = returnData;
     }
 
     public ReturnObject() {
@@ -42,6 +42,6 @@ public class ReturnObject {
     public ReturnObject(String code, String message, Object returnDate) {
         this.code = code;
         this.message = message;
-        this.returnDate = returnDate;
+        this.returnData = returnDate;
     }
 }

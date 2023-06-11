@@ -20,4 +20,6 @@ public interface UserMapper {
     User selectUserByActAndPwd(Map<String,String> map);
 
     List<User> selectAllUser();
+
+    User selectUserByName(String name);
 }

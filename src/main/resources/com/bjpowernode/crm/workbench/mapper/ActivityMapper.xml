@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.ActivityMapper">
+
+    <resultMap id="activityResultMap" type="activity">
+        <id property="id" column="id"/>
+        <result column="edit_time" property="editTime"/>
+        <result column="edit_by" property="editBy"/>
+        <result column="owner" property="owner"/>
+        <result column="name" property="name"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="cost" property="cost"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+    </resultMap>
+
+
+    <insert id="insertActivity">
+        insert into tbl_activity
+        (id,owner,name,start_date,end_date,cost,description,create_time,create_by)
+        values
+        (
+        #{id},
+        #{owner},
+        #{name},
+        #{startDate},
+        #{endDate},
+        #{cost},
+        #{description},
+        #{createTime},
+        #{createBy}
+        )
+    </insert>
+    <update id="updateActivity">
+        <!--判断是否为空，主要是为了防止用户误操作-->
+        update tbl_activity
+        <set>
+            <if test="owner!=null and owner!=''">
+                owner = #{owner},
+            </if>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                start_date = #{startDate},
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                end_date = #{endDate},
+            </if>
+            <if test="cost!=null and cost!=''">
+                cost = #{cost},
+            </if>
+            <if test="description!=null and description!=''">
+                description = #{description},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="selectActivityListByPage" resultMap="activityResultMap">
+        select id,name,owner,start_date,end_date
+        from tbl_activity limit #{index},#{pageSize}
+    </select>
+
+    <select id="selectAllActivity" resultMap="activityResultMap">
+        select a.id,a.name,u.name owner,a.start_date,a.end_date
+        from tbl_activity a
+        left join tbl_user u
+        on a.owner = u.id
+    </select>
+
+    <select id="selectActivityForCondition" resultMap="activityResultMap">
+        select
+        a.id,a.name,u.name owner,a.start_date,a.end_date
+        from tbl_activity a
+        left join tbl_user u
+        on a.owner = u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like "%"#{name}"%"
+            </if>
+            <if test="owner!=null and owner!=''">
+                <!--
+                and owner = #{owner}
+                where语句在select语句执行前执行，此时字段还没有进行重命名
+                不能像上面这么写......
+                -->
+                and u.name = #{owner}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                and a.start_date &lt;= #{endDate}
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                and a.end_date>= #{startDate}
+            </if>
+        </where>
+        order by a.create_time desc
+
+
+
+    </select>
+    <select id="selectActivityById" resultMap="activityResultMap">
+        select
+        id,name,owner,start_date,end_date,cost,description
+        from tbl_activity
+        where id = #{id}
+    </select>
+
+    <delete id="deleteActivityByIds">
+        delete from tbl_activity
+        where id in
+        (
+        <foreach collection="array" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+</mapper>
