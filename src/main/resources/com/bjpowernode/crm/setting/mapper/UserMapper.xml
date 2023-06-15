@@ -37,11 +37,11 @@
         from tbl_user;
     </select>
 
-    <select id="selectUserByName" resultMap="userResultMap">
+    <select id="selectUserById" resultMap="userResultMap">
         select
         <include refid="userSql"></include>
         from tbl_user
-        where name = #{name}
+        where id = #{id}
     </select>
 
 

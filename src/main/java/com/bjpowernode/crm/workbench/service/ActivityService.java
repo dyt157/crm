@@ -1,9 +1,11 @@
 package com.bjpowernode.crm.workbench.service;
 
 import com.bjpowernode.crm.workbench.pojo.Activity;
+import com.bjpowernode.crm.workbench.pojo.ActivityRemark;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 /**
@@ -25,4 +27,22 @@ public interface ActivityService {
     int modifyActivity(Activity activity);
 
     Activity queryActivityById(String id);
+
+    List<Activity> queryAllActivity();
+
+    void createActivityFile();
+
+    void createActivityFileByIds(String[] ids);
+
+    int saveActivityByList(List<Activity> activities);
+
+    Activity queryActivityByIdConvertOwner(String id);
+
+    List<ActivityRemark> queryActivityRemarkByActivityId(String activityId);
+
+    int saveActivityRemark(ActivityRemark activityRemark);
+
+    int deleteActivityRemarkById(String id);
+
+    int modifyActivityRemark(ActivityRemark activityRemark);
 }

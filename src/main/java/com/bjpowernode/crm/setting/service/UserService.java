@@ -17,5 +17,5 @@ public interface UserService {
 
     List<User> queryAllUser();
 
-    User queryUserByName(String name);
+    User queryUserById(String id);
 }

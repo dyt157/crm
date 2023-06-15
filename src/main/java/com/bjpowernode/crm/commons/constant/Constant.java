@@ -12,4 +12,7 @@ public class Constant {
     public static final String RETURN_CODE_FAIL = "0";
 
     public static final String SESSION_USER = "user";
+    public static final String  RETURN_MESSAGE_FAIL= "系统繁忙，请重新尝试...";
+
+
 }

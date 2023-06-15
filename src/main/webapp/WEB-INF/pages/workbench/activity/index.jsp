@@ -33,6 +33,8 @@ request.getServerPort()+request.getContextPath()+"/";
 	<script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
 
 	<script type="text/javascript">
+
+
 		var globalPageSize = 3
 		var globalPageNum = 1
 		$(function(){
@@ -113,7 +115,7 @@ request.getServerPort()+request.getContextPath()+"/";
 
 				//成本只能为非负整数
 				let cost = $("#cost").val().trim()
-				const costRegExp = /^[1-9]\d*$/;
+				const costRegExp = /^([1-9]\d*)|([1-9]\d*\.0)$/;
 				if (!costRegExp.test(cost)){
 					$("#message").html("成本只能为非负整数")
 					return;
@@ -294,7 +296,7 @@ request.getServerPort()+request.getContextPath()+"/";
 
 				//成本只能为非负整数
 				let cost = $("#edit-cost").val().trim()
-				const costRegExp = /^[1-9]\d*$/;
+				const costRegExp = /^([1-9]\d*)|([1-9]\d*\.0)$/;
 				if (!costRegExp.test(cost)){
 					$("#edit-message").html("成本只能为非负整数")
 					return;
@@ -317,8 +319,111 @@ request.getServerPort()+request.getContextPath()+"/";
 				})
 			})
 
+			//批量导出
+			$("#exportActivityAllBtn").click(function () {
+				if (confirm("你确定要导出全部活动列表信息吗")){
+					//下载文件的请求只能是同步请求，因为ajax请求无法处理响应信息是一个文件的情况
+					window.location.href = "workbench/activity/activityListDownLoad"
+				}
+			})
+
+			//选择导出
+			$("#exportActivityXzBtn").click(function () {
+				//先判断用户是否选中至少一条记录
+				let activityChecked = $("#activityBody :checked")
+				if (activityChecked.length===0){
+					alert("至少选中一条活动记录！！！")
+					return;
+				}
+				//收集用户选中的活动信息的id
+				let idStr = ''
+				for (let i = 0; i < activityChecked.length; i++) {
+					idStr+="id="+activityChecked[i].value+"&";
+				}
+				// alert(idStr)
+				//把最后的 ’&‘ 符号去掉
+				idStr = idStr.substring(0,idStr.length-1);
+				if (confirm("你确定要导出选中的活动列表信息吗")){
+					//下载文件的请求只能是同步请求，因为ajax请求无法处理响应信息是一个文件的情况
+					window.location.href = "workbench/activity/activityListDownLoadByIds?"+idStr
+				}
+
+
+
+			})
+
+			//上传文件
+			$("#importActivityBtn").click(function () {
+				//点击导入按钮，获取文件对象，进行后缀名以及大小的验证
+				//在js的组件标签（<input type="file"/> ）对应的DOM对象中，有一个files属性
+				//files是一个数组，存储了 给这个标签上传的多个文件所对应的文件对象
+				//所以理论上你可以一次性上传多个文件
+				//但现在市面上的浏览器基本上只支持一次上传一个文件，所以我们取第一个文件对象即可
+				let activityFile = $("#activityFile")[0].files[0]
+				//获取属性名做验证
+				//activityFile.name :获取这个文件的文件名
+				//从该文件名的最后一个'.'字符的下标+1 开始截取，截取到最后
+				let activityFileSuffix = activityFile.name.substr(activityFile.name.lastIndexOf('.')+1)
+				if (activityFileSuffix!=="xls"&&activityFileSuffix!=="xlsx"){
+					alert("只能上传Excel文件！！！")
+					return;
+				}
+
+				//文件大小验证
+				if (activityFile.size>1024*1024*5){
+					alert("文件大小不能超过5M")
+					return;
+				}
+				//表单验证通过，发送Ajax请求
+				//关键点：data属性填什么？？
+				//以前学习的方式只能提交文本数据
+				//以后只要是发送excel,word,图片，视频.....等等二进制文件
+				//只能使用FormData对象
+				let formData = new FormData()
+				//formData.append(name,value)
+				//name需要和后端的处理器方法形参一致!!!
+				formData.append("activityFile",activityFile)
+				$.ajax({
+					url:"workbench/activity/activityListUpLoad",
+					data:formData,
+					//ajax请求默认的也是把你上传的数据
+					//全部转换成字符串的形式，再按照urlencoded编码格式进行编码
+					//最终得到数据：参数名1=xxx&参数名2=xxx&参数名3=xxx...
+
+					//所以为了阻止上述的默认行为，上传文件还需要补充两个属性
+					processData:false,//阻止浏览器把对象中的数据转换为字符串
+					//contentType代表前端发送数据时的数据格式（编码格式）,也就是请求头中的Content-type属性
+					//值是true时，表示采用application/x-www-form-urlencoded编码
+					//改为false后，不采用application/x-www-form-urlencoded编码
+					//将采用multipart/form-data编码格式
+					contentType:false,
+					type: "post",
+					dataType: "json",
+					success:function (data) {
+						if (data.code==="1"){
+							let count = data.returnData;
+							alert("成功导入"+count+"条活动记录！！!");
+							//刷新活动列表
+							queryActivityForConditionByPage(1,
+									$("#pageDiv").bs_pagination("getOption","rowsPerPage"))
+							//关闭模态窗口
+							$("#importActivityModal").modal("hide")
+						}else{
+							alert(data.message)
+						}
+					}
+				})
+
+
+			})
+
+			//拼字符串太折磨了，还是这样做把......
+			$("#activityBody").on("click","a",function () {
+				window.location.href = "workbench/activity/toDetail?id="+$(this).attr("activityid")
+			})
 
 		});
+
 
 		//在入口函数外面定义查询活动列表的函数
 		function queryActivityForConditionByPage(pageNum,pageSize,flag) {
@@ -351,7 +456,7 @@ request.getServerPort()+request.getContextPath()+"/";
 				for (let i = 0; i < activityList.length; i++) {
 					html+="<tr class=\"active\">"+
 							"<td><input type=\"checkbox\"  value='"+activityList[i].id+"'/></td>"+
-							"<td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='detail.html';\">"+activityList[i].name+"</a></td>"+
+							"<td><a style=\"text-decoration: none; cursor: pointer;\" activityid='"+activityList[i].id+"'>"+activityList[i].name+"</a></td>"+
 							"<td>"+activityList[i].owner+"</td>"+
 							"<td>"+activityList[i].startDate+"</td>"+
 							"<td>"+activityList[i].endDate+"</td>"+
@@ -385,7 +490,6 @@ request.getServerPort()+request.getContextPath()+"/";
 	</script>
 </head>
 <body>
-
 	<!-- 创建市场活动的模态窗口 -->
 	<div class="modal fade" id="createActivityModal" role="dialog">
 		<div class="modal-dialog" role="document" style="width: 85%;">
@@ -559,6 +663,7 @@ request.getServerPort()+request.getContextPath()+"/";
                     </div>
                 </div>
                 <div class="modal-footer">
+					<span id="importFileMessage" style="color: darkgreen;font-size: 25px"></span>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button id="importActivityBtn" type="button" class="btn btn-primary">导入</button>
                 </div>
@@ -639,7 +744,7 @@ request.getServerPort()+request.getContextPath()+"/";
 						<%--<c:forEach items="${page.list}" var="activity">
 							<tr class="active">
 								<td><input type="checkbox" /></td>
-								<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">${activity.name}</a></td>
+								<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">${activity.name}</a></td>
 								<td>${activity.owner}</td>
 								<td>${activity.startDate}</td>
 								<td>${activity.endDate}</td>
@@ -647,7 +752,7 @@ request.getServerPort()+request.getContextPath()+"/";
 						</c:forEach>--%>
                         <%--<tr class="active">
                             <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">发传单</a></td>
+                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">发传单</a></td>
                             <td>zhangsan</td>
                             <td>2020-10-10</td>
                             <td>2020-10-20</td>

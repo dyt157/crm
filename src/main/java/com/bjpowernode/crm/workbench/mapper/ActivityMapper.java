@@ -1,6 +1,7 @@
 package com.bjpowernode.crm.workbench.mapper;
 
 import com.bjpowernode.crm.workbench.pojo.Activity;
+import com.bjpowernode.crm.workbench.pojo.ActivityRemark;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -25,4 +26,18 @@ public interface ActivityMapper {
     int updateActivity(Activity activity);
 
     Activity selectActivityById(String id);
+
+    List<Activity> selectActivityByIds(String[] ids);
+
+    int insertActivityByList(List<Activity> activities);
+
+    Activity selectActivityByIdConvertOwner(String id);
+
+    List<ActivityRemark> selectActivityRemarkByActivityId(String activityId);
+
+    int insertActivityRemark(ActivityRemark activityRemark);
+
+    int deleteActivityRemarkById(String id);
+
+    int updateActivityRemark(ActivityRemark activityRemark);
 }
