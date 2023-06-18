@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.ClueMapper">
+
+  <resultMap id="BaseResultMap" type="com.bjpowernode.crm.workbench.pojo.Clue">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="appellation" jdbcType="VARCHAR" property="appellation" />
+    <result column="owner" jdbcType="CHAR" property="owner" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+    <result column="mphone" jdbcType="VARCHAR" property="mphone" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="CHAR" property="createTime" />
+    <result column="edit_by" jdbcType="VARCHAR" property="editBy" />
+    <result column="edit_time" jdbcType="CHAR" property="editTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="contact_summary" jdbcType="VARCHAR" property="contactSummary" />
+    <result column="next_contact_time" jdbcType="CHAR" property="nextContactTime" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+
+  <sql id="clueSql">
+    id, fullname, appellation, owner, company, job, email, phone, website, mphone,
+    state, source, create_by, create_time, edit_by, edit_time, description, contact_summary,
+    next_contact_time, address
+  </sql>
+
+  <delete id="deleteClueByIds">
+    delete from tbl_clue
+    where id in (
+    <foreach collection="array" item="id" separator=",">
+        #{id}
+    </foreach>
+    )
+  </delete>
+  <insert id="insertClue" parameterType="com.bjpowernode.crm.workbench.pojo.Clue">
+    insert into tbl_clue (id, fullname, appellation, 
+      owner, company, job, email, 
+      phone, website, mphone, 
+      state, source, create_by, 
+      create_time, description, contact_summary, next_contact_time,
+      address)
+    values (#{id,jdbcType=CHAR}, #{fullname,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR}, 
+      #{owner,jdbcType=CHAR}, #{company,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=CHAR},#{description,jdbcType=VARCHAR}, #{contactSummary,jdbcType=VARCHAR}, #{nextContactTime,jdbcType=CHAR},
+      #{address,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateClue" parameterType="com.bjpowernode.crm.workbench.pojo.Clue">
+    update tbl_clue set
+      fullname=#{fullname},
+      appellation = #{appellation,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=CHAR},
+      company = #{company,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      website = #{website,jdbcType=VARCHAR},
+      mphone = #{mphone,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      edit_by = #{editBy,jdbcType=VARCHAR},
+      edit_time = #{editTime,jdbcType=CHAR},
+      description = #{description,jdbcType=VARCHAR},
+      contact_summary = #{contactSummary,jdbcType=VARCHAR},
+      next_contact_time = #{nextContactTime,jdbcType=CHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <select id="selectClueById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="clueSql"></include>
+    from tbl_clue
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAllClue" resultMap="BaseResultMap">
+      select
+      c.id,
+      c.fullname,
+      c.appellation,
+      u.name owner,
+      c.company,
+      c.job,
+      c.email,
+      c.phone,
+      c.website,
+      c.mphone,
+      c.state,
+      c.source,
+      c.create_by,
+      c.create_time,
+      c.edit_by,
+      c.edit_time,
+      c.description,
+      c.contact_summary,
+      c.next_contact_time,
+      c.address
+      from tbl_clue c
+      left join tbl_user u
+      on c.owner = u.id
+      order by c.create_time desc
+  </select>
+    <select id="selectClueByCondition" resultMap="BaseResultMap">
+        select
+        c.id,
+        c.fullname,
+        c.appellation,
+        u.name owner,
+        c.company,
+        c.job,
+        c.email,
+        c.phone,
+        c.website,
+        c.mphone,
+        c.state,
+        c.source,
+        c.create_by,
+        c.create_time,
+        c.edit_by,
+        c.edit_time,
+        c.description,
+        c.contact_summary,
+        c.next_contact_time,
+        c.address
+        from tbl_clue c
+        left join tbl_user u
+        on c.owner = u.id
+        <where>
+            <if test="fullname!=null and fullname!=''">
+                c.fullname like "%"#{fullname}"%"
+            </if>
+            <if test="appellation!=null and appellation!=''">
+                and c.appellation=#{appellation}
+            </if>
+            <if test="company!=null and company!=''">
+                and c.company like "%"#{company}"%"
+            </if>
+            <if test="phone!=null and phone!=''">
+                and c.phone like #{phone}
+            </if>
+            <if test="source!=null and source!=''">
+                and c.source = #{source}
+            </if>
+            <if test="owner!=null and owner!=''">
+                and u.name like "%"#{owner}"%"
+            </if>
+            <if test="mphone!=null and mphone!=''">
+                and c.mphone like  "%"#{mphone}"%"
+            </if>
+            <if test="state!=null and state!=''">
+                and c.state = #{state}
+            </if>
+        </where>
+        order by c.create_time desc
+    </select>
+</mapper>

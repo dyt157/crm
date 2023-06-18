@@ -127,7 +127,7 @@
                 where语句在select语句执行前执行，此时字段还没有进行重命名
                 不能像上面这么写......
                 -->
-                and u.name = #{owner}
+                and u.name like "%"#{owner}"%"
             </if>
             <if test="endDate!=null and endDate!=''">
                 and a.start_date &lt;= #{endDate}
