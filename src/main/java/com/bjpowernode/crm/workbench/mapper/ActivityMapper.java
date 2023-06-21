@@ -33,11 +33,5 @@ public interface ActivityMapper {
 
     Activity selectActivityByIdConvertOwner(String id);
 
-    List<ActivityRemark> selectActivityRemarkByActivityId(String activityId);
-
-    int insertActivityRemark(ActivityRemark activityRemark);
-
-    int deleteActivityRemarkById(String id);
-
-    int updateActivityRemark(ActivityRemark activityRemark);
+    List<Activity> selectActivityByName(String name);
 }

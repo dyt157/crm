@@ -10,6 +10,8 @@ public interface ClueMapper {
 
     Clue selectClueById(String id);
 
+    Clue selectAClueByIdToDetail(String id);
+
     List<Clue> selectAllClue();
 
     int updateClue(Clue clue);

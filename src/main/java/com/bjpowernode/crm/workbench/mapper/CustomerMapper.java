@@ -1,0 +1,16 @@
+package com.bjpowernode.crm.workbench.mapper;
+
+import com.bjpowernode.crm.workbench.pojo.Customer;
+import java.util.List;
+
+public interface CustomerMapper {
+    int deleteByPrimaryKey(String id);
+
+    int insert(Customer row);
+
+    Customer selectByPrimaryKey(String id);
+
+    List<Customer> selectAll();
+
+    int updateByPrimaryKey(Customer row);
+}

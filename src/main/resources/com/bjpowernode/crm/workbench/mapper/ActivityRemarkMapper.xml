@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.ActivityRemarkMapper">
+
+    <resultMap id="activityRemarkResultMap" type="activityRemark">
+        <id property="id" column="id"/>
+        <result column="note_content" property="noteContent" />
+        <result column="edit_time" property="editTime"/>
+        <result column="edit_by" property="editBy"/>
+        <result column="edit_flag" property="editFlag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="create_by" property="createBy"/>
+        <result column="activity_id" property="activityId"/>
+    </resultMap>
+    <select id="selectActivityRemarkByActivityId" resultMap="activityRemarkResultMap" >
+        select
+        ar.id,
+        ar.note_content,
+        ar.create_time,
+        ar.create_by,
+        ar.edit_time,
+        u2.name edit_by,
+        ar.edit_flag,
+        ar.activity_id
+        from tbl_activity_remark ar
+        <!--
+        left join tbl_user u1
+        on ar.create_by = u1.id
+        -->
+        left join tbl_user u2
+        on ar.edit_by = u2.id
+        where activity_id = #{activityId}
+        order by ar.create_time desc
+    </select>
+
+    <insert id="insertActivityRemark">
+        insert into tbl_activity_remark
+        (
+            id,
+            note_content,
+            create_time,
+            create_by,
+            edit_time,
+            edit_by,
+            edit_flag,
+            activity_id
+        )
+        values
+            (
+                #{id},
+                #{noteContent},
+                #{createTime},
+                #{createBy},
+                #{editTime},
+                #{editBy},
+                #{editFlag},
+                #{activityId}
+            )
+    </insert>
+
+    <delete id="deleteActivityRemarkById">
+        delete from tbl_activity_remark where id = #{id}
+    </delete>
+
+    <update id="updateActivityRemark">
+        update tbl_activity_remark set
+                                       note_content = #{noteContent},
+                                       edit_by=#{editBy},
+                                       edit_time=#{editTime},
+                                       edit_flag=#{editFlag}
+        where id = #{id}
+    </update>
+
+</mapper>

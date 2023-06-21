@@ -24,4 +24,6 @@ public interface ClueService{
     int deleteClueByIds(String[] ids);
 
     PageInfo<Clue> queryClueByCondition(Integer pageNum,Integer pageSize,Clue clue);
+
+    Clue queryClueByIdToDetail(String id);
 }

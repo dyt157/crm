@@ -9,6 +9,7 @@ import com.bjpowernode.crm.setting.pojo.User;
 import com.bjpowernode.crm.setting.service.UserService;
 import com.bjpowernode.crm.workbench.pojo.Activity;
 import com.bjpowernode.crm.workbench.pojo.ActivityRemark;
+import com.bjpowernode.crm.workbench.service.ActivityRemarkService;
 import com.bjpowernode.crm.workbench.service.ActivityService;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.github.pagehelper.Page;
@@ -46,6 +47,8 @@ public class ActivityController {
     private UserService userService;
     @Resource
     private ActivityService activityService;
+    @Resource
+    private ActivityRemarkService activityRemarkService;
 
     /**
      * 跳转到活动首页
@@ -410,7 +413,7 @@ public class ActivityController {
     @RequestMapping("/queryActivityRemark")
     @ResponseBody
     public Object queryActivityRemark(String activityId){
-        List<ActivityRemark> activityRemarks = activityService.queryActivityRemarkByActivityId(activityId);
+        List<ActivityRemark> activityRemarks = activityRemarkService.queryActivityRemarkByActivityId(activityId);
 
         ReturnObject returnObject = new ReturnObject();
         if (activityRemarks==null||activityRemarks.size()==0){
@@ -435,7 +438,7 @@ public class ActivityController {
         activityRemark.setCreateTime(DateUtils.formatDateTime(new Date()));
 
         //调用Service层，插入数据
-        int count = activityService.saveActivityRemark(activityRemark);
+        int count = activityRemarkService.saveActivityRemark(activityRemark);
         ReturnObject returnObject = new ReturnObject();
         if (count<=0){
             returnObject.setCode(Constant.RETURN_CODE_FAIL);
@@ -450,7 +453,7 @@ public class ActivityController {
     @RequestMapping("/deleteActivityRemarkById")
     @ResponseBody
     public Object deleteActivityRemarkById(String id){
-        int count = activityService.deleteActivityRemarkById(id);
+        int count = activityRemarkService.deleteActivityRemarkById(id);
         ReturnObject returnObject = new ReturnObject();
         if (count<=0){
             returnObject.setCode(Constant.RETURN_CODE_FAIL);
@@ -492,7 +495,7 @@ public class ActivityController {
         activityRemark.setEditTime(DateUtils.formatDateTime(new Date()));
         //编辑状态
         activityRemark.setEditFlag("1");
-        int count = activityService.modifyActivityRemark(activityRemark);
+        int count = activityRemarkService.modifyActivityRemark(activityRemark);
         ReturnObject returnObject = new ReturnObject();
         if (count<=0){
             returnObject.setCode(Constant.RETURN_CODE_FAIL);

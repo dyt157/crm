@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.ClueActivityRelationMapper">
+
+    <insert id="insertClueActivityRelationList">
+        insert into tbl_clue_activity_relation (id,clue_id,activity_id)
+        values
+        <foreach collection="list" item="clueActivityRelation" separator="," >
+            (#{clueActivityRelation.id},#{clueActivityRelation.clueId},#{clueActivityRelation.activityId})
+        </foreach>
+
+    </insert>
+    <delete id="deleteClueActivityRelationByClueIdAndActivityId">
+        delete from tbl_clue_activity_relation
+        where clue_id = #{param1} and activity_id = #{param2}
+    </delete>
+    <select id="selectClueActivityRelationListByClueId" resultType="ClueActivityRelation">
+        select id,clue_id clueId,activity_id activityId
+        from tbl_clue_activity_relation
+        where clue_id = #{clueId}
+    </select>
+    <select id="selectClueActivityRelationByClueIdAndActivityId"
+            resultType="com.bjpowernode.crm.workbench.pojo.ClueActivityRelation">
+        select id,clue_id clueId,activity_id activityId
+        from tbl_clue_activity_relation
+        where clue_id = #{clueId} and activity_id = #{activityId}
+    </select>
+</mapper>

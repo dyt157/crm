@@ -12,5 +12,6 @@
             id,value,text,order_no orderNo,type_code typeCode
         from tbl_dic_value
         where type_code = #{typeCode}
+        order by order_no
     </select>
 </mapper>

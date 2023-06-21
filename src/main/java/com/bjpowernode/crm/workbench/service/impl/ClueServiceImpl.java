@@ -57,4 +57,9 @@ public class ClueServiceImpl implements ClueService {
         PageInfo<Clue> cluePageInfo = new PageInfo<>(clues, 5);
         return cluePageInfo;
     }
+
+    @Override
+    public Clue queryClueByIdToDetail(String id) {
+        return clueMapper.selectAClueByIdToDetail(id);
+    }
 }

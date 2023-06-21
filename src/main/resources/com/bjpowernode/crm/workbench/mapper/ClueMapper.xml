@@ -160,4 +160,35 @@
         </where>
         order by c.create_time desc
     </select>
+    <select id="selectAClueByIdToDetail" resultMap="BaseResultMap">
+        select
+            c.id,
+            c.fullname,
+            c.appellation,
+            u.name owner,
+            c.company,
+            c.job,
+            c.email,
+            c.phone,
+            c.website,
+            c.mphone,
+            c.state,
+            c.source,
+            u1.name create_by,
+            c.create_time,
+            u2.name edit_by,
+            c.edit_time,
+            c.description,
+            c.contact_summary,
+            c.next_contact_time,
+            c.address
+            from tbl_clue c
+            left join tbl_user u
+            on c.owner = u.id
+            left join tbl_user u1
+            on c.create_by = u1.id
+            left join tbl_user u2
+            on c.edit_by = u2.id
+        where c.id = #{id}
+    </select>
 </mapper>

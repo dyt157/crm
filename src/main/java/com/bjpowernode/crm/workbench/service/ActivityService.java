@@ -38,11 +38,7 @@ public interface ActivityService {
 
     Activity queryActivityByIdConvertOwner(String id);
 
-    List<ActivityRemark> queryActivityRemarkByActivityId(String activityId);
+    List<Activity> queryActivityByName(String name);
 
-    int saveActivityRemark(ActivityRemark activityRemark);
-
-    int deleteActivityRemarkById(String id);
-
-    int modifyActivityRemark(ActivityRemark activityRemark);
+    List<Activity> queryActivityByIds(String[] ids);
 }

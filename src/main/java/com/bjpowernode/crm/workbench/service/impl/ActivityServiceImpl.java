@@ -171,22 +171,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityRemark> queryActivityRemarkByActivityId(String activityId) {
-        return activityMapper.selectActivityRemarkByActivityId(activityId);
+    public List<Activity> queryActivityByName(String name) {
+        return activityMapper.selectActivityByName(name);
     }
 
     @Override
-    public int saveActivityRemark(ActivityRemark activityRemark) {
-        return activityMapper.insertActivityRemark(activityRemark);
+    public List<Activity> queryActivityByIds(String[] ids) {
+        return activityMapper.selectActivityByIds(ids);
     }
 
-    @Override
-    public int deleteActivityRemarkById(String id) {
-        return activityMapper.deleteActivityRemarkById(id);
-    }
 
-    @Override
-    public int modifyActivityRemark(ActivityRemark activityRemark) {
-        return activityMapper.updateActivityRemark(activityRemark);
-    }
 }
