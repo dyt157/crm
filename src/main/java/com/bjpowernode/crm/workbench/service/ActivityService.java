@@ -41,4 +41,6 @@ public interface ActivityService {
     List<Activity> queryActivityByName(String name);
 
     List<Activity> queryActivityByIds(String[] ids);
+
+    List<Activity> queryActivityListByNameAndActivityIdList(String name,List<String> activityIdList);
 }

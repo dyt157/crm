@@ -6,7 +6,9 @@ import java.util.List;
 public interface ContactsRemarkMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(ContactsRemark row);
+    int insertContactsRemark(ContactsRemark contactsRemark);
+
+    int insertContactsRemarkList(List<ContactsRemark> contactsRemarkList);
 
     ContactsRemark selectByPrimaryKey(String id);
 

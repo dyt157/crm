@@ -15,7 +15,7 @@
     delete from tbl_contacts_remark
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsRemark">
+  <insert id="insertContactsRemark" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsRemark">
     insert into tbl_contacts_remark (id, note_content, create_by, 
       create_time, edit_by, edit_time, 
       edit_flag, contacts_id)
@@ -23,7 +23,25 @@
       #{createTime,jdbcType=CHAR}, #{editBy,jdbcType=VARCHAR}, #{editTime,jdbcType=CHAR}, 
       #{editFlag,jdbcType=CHAR}, #{contactsId,jdbcType=CHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsRemark">
+    <insert id="insertContactsRemarkList">
+      insert into tbl_contacts_remark (id, note_content, create_by,
+                                       create_time, edit_by, edit_time,
+                                       edit_flag, contacts_id)
+      values
+      <foreach collection="list" separator="," item="contactsRemark">
+          (
+            #{contactsRemark.id,jdbcType=CHAR},
+            #{contactsRemark.noteContent,jdbcType=VARCHAR},
+            #{contactsRemark.createBy,jdbcType=VARCHAR},
+            #{contactsRemark.createTime,jdbcType=CHAR},
+            #{contactsRemark.editBy,jdbcType=VARCHAR},
+            #{contactsRemark.editTime,jdbcType=CHAR},
+            #{contactsRemark.editFlag,jdbcType=CHAR},
+            #{contactsRemark.contactsId,jdbcType=CHAR}
+            )
+      </foreach>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsRemark">
     update tbl_contacts_remark
     set note_content = #{noteContent,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},

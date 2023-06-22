@@ -209,5 +209,22 @@
             1=2
         </if>
     </select>
+    <select id="selectActivityListByNameAndActivityIdList" resultMap="activityResultMap">
+        select
+            a.id,
+            a.name,
+            u.name owner,
+            a.start_date,
+            a.end_date
+        from tbl_activity a
+        left join tbl_user u
+        on a.owner = u.id
+        where a.name like "%"#{name}"%"
+        and a.id in (
+        <foreach collection="activityIdList" item="activityId" separator=",">
+            #{activityId}
+        </foreach>
+        )
+    </select>
 
 </mapper>

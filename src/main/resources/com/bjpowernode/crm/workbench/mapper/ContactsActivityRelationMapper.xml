@@ -16,7 +16,19 @@
     values (#{id,jdbcType=CHAR}, #{contactsId,jdbcType=CHAR}, #{activityId,jdbcType=CHAR}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsActivityRelation">
+    <insert id="insertContactsActivityRelationList">
+      insert into tbl_contacts_activity_relation (id, contacts_id, activity_id
+      )
+      values
+      <foreach collection="list" separator="," item="contactsActivityRelation">
+            (
+             #{contactsActivityRelation.id,jdbcType=CHAR},
+             #{contactsActivityRelation.contactsId,jdbcType=CHAR},
+             #{contactsActivityRelation.activityId,jdbcType=CHAR}
+             )
+      </foreach>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.ContactsActivityRelation">
     update tbl_contacts_activity_relation
     set contacts_id = #{contactsId,jdbcType=CHAR},
       activity_id = #{activityId,jdbcType=CHAR}

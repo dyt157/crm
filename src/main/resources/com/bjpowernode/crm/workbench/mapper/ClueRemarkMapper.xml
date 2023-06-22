@@ -53,6 +53,11 @@
         from tbl_clue_remark
         where id = #{id};
     </delete>
+    <delete id="deleteClueRemarkByClueId">
+        delete
+        from tbl_clue_remark
+        where clue_id = #{clueId};
+    </delete>
     <select id="selectClueRemarkByClueId" resultMap="clueRemarkResultMap">
         select
             cr.id,
@@ -70,5 +75,11 @@
         on cr.edit_by = u2.id
         where cr.clue_id = #{clueId}
         order by cr.create_time
+    </select>
+    <select id="selectClueRemarkByClueIdForConvert" resultMap="clueRemarkResultMap">
+        select
+        <include refid="crSql"></include>
+        from tbl_clue_remark
+        where clue_id = #{clueId}
     </select>
 </mapper>

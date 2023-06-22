@@ -34,4 +34,6 @@ public interface ActivityMapper {
     Activity selectActivityByIdConvertOwner(String id);
 
     List<Activity> selectActivityByName(String name);
+
+    List<Activity> selectActivityListByNameAndActivityIdList(@Param("name") String name,@Param("activityIdList") List<String> activityIdList);
 }

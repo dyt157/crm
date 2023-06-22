@@ -13,7 +13,7 @@ public class ContactsRemark {
 
     private String editTime;
 
-    private String editFlag;
+    private String editFlag="0";
 
     private String contactsId;
 

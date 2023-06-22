@@ -1,8 +1,11 @@
 package com.bjpowernode.crm.workbench.service;
 
+import com.bjpowernode.crm.setting.pojo.User;
 import com.bjpowernode.crm.workbench.pojo.Clue;
+import com.bjpowernode.crm.workbench.pojo.Tran;
 import com.github.pagehelper.PageInfo;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -26,4 +29,6 @@ public interface ClueService{
     PageInfo<Clue> queryClueByCondition(Integer pageNum,Integer pageSize,Clue clue);
 
     Clue queryClueByIdToDetail(String id);
+
+    void clueConvert(String clueId, User user, Tran tran, boolean isCreateTran);
 }

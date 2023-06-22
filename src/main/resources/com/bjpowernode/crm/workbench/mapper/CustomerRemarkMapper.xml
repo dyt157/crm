@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bjpowernode.crm.workbench.mapper.customerRemarkMapper">
-  <resultMap id="BaseResultMap" type="com.bjpowernode.crm.workbench.pojo.customerRemark">
+<mapper namespace="com.bjpowernode.crm.workbench.mapper.CustomerRemarkMapper">
+  <resultMap id="BaseResultMap" type="com.bjpowernode.crm.workbench.pojo.CustomerRemark">
     <id column="id" jdbcType="CHAR" property="id" />
     <result column="note_content" jdbcType="VARCHAR" property="noteContent" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
@@ -15,7 +15,7 @@
     delete from tbl_customer_remark
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.bjpowernode.crm.workbench.pojo.customerRemark">
+  <insert id="insertCustomerRemark" parameterType="com.bjpowernode.crm.workbench.pojo.CustomerRemark">
     insert into tbl_customer_remark (id, note_content, create_by, 
       create_time, edit_by, edit_time, 
       edit_flag, customer_id)
@@ -23,7 +23,26 @@
       #{createTime,jdbcType=CHAR}, #{editBy,jdbcType=VARCHAR}, #{editTime,jdbcType=CHAR}, 
       #{editFlag,jdbcType=CHAR}, #{customerId,jdbcType=CHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.customerRemark">
+  <insert id="insertCustomerRemarkList">
+    insert into tbl_customer_remark (id, note_content, create_by,
+                                     create_time, edit_by, edit_time,
+                                     edit_flag, customer_id)
+    values
+        <foreach collection="list" item="customerRemark" separator=",">
+            (
+            #{customerRemark.id,jdbcType=CHAR},
+            #{customerRemark.noteContent,jdbcType=VARCHAR},
+            #{customerRemark.createBy,jdbcType=VARCHAR},
+            #{customerRemark.createTime,jdbcType=CHAR},
+            #{customerRemark.editBy,jdbcType=VARCHAR},
+            #{customerRemark.editTime,jdbcType=CHAR},
+            #{customerRemark.editFlag,jdbcType=CHAR},
+            #{customerRemark.customerId,jdbcType=CHAR}
+            )
+
+        </foreach>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.workbench.pojo.CustomerRemark">
     update tbl_customer_remark
     set note_content = #{noteContent,jdbcType=VARCHAR},
       create_by = #{createBy,jdbcType=VARCHAR},

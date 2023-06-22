@@ -6,6 +6,7 @@ import java.util.List;
 public interface ClueMapper {
     int deleteClueByIds(String[] ids);
 
+
     int insertClue(Clue clue);
 
     Clue selectClueById(String id);

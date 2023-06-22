@@ -15,8 +15,11 @@ public interface ClueRemarkMapper {
     int insertClueRemark(ClueRemark clueRemark);
 
     List<ClueRemark> selectClueRemarkByClueId(String clueId);
+    List<ClueRemark> selectClueRemarkByClueIdForConvert(String clueId);
 
     int updateClueRemark(ClueRemark clueRemark);
 
     int deleteClueRemarkById(String id);
+    int deleteClueRemarkByClueId(String clueId);
+
 }

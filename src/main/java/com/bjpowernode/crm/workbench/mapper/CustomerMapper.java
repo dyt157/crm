@@ -6,7 +6,7 @@ import java.util.List;
 public interface CustomerMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(Customer row);
+    int insertCustomer(Customer customer);
 
     Customer selectByPrimaryKey(String id);
 

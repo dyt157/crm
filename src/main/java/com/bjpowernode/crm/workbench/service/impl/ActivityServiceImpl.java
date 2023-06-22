@@ -180,5 +180,10 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.selectActivityByIds(ids);
     }
 
+    @Override
+    public List<Activity> queryActivityListByNameAndActivityIdList(String name, List<String> activityIdList) {
+        return activityMapper.selectActivityListByNameAndActivityIdList(name,activityIdList);
+    }
+
 
 }

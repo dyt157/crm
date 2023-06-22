@@ -29,6 +29,11 @@ public class ClueRemarkServiceImpl implements ClueRemarkService {
     }
 
     @Override
+    public List<ClueRemark> queryClueRemarkByClueIdForConvert(String clueId) {
+        return clueRemarkMapper.selectClueRemarkByClueIdForConvert(clueId);
+    }
+
+    @Override
     public int modifyClueRemark(ClueRemark clueRemark) {
         return clueRemarkMapper.updateClueRemark(clueRemark);
     }
@@ -36,5 +41,10 @@ public class ClueRemarkServiceImpl implements ClueRemarkService {
     @Override
     public int deleteClueRemarkById(String id) {
         return clueRemarkMapper.deleteClueRemarkById(id);
+    }
+
+    @Override
+    public int deleteClueRemarkByClueId(String clueId) {
+        return clueRemarkMapper.deleteClueRemarkByClueId(clueId);
     }
 }

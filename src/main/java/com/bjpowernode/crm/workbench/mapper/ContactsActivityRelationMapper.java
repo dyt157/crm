@@ -7,6 +7,7 @@ public interface ContactsActivityRelationMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(ContactsActivityRelation row);
+    int insertContactsActivityRelationList(List<ContactsActivityRelation> contactsActivityRelationList);
 
     ContactsActivityRelation selectByPrimaryKey(String id);
 

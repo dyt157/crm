@@ -20,7 +20,7 @@
     delete from tbl_customer
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.bjpowernode.crm.workbench.pojo.Customer">
+  <insert id="insertCustomer" parameterType="com.bjpowernode.crm.workbench.pojo.Customer">
     insert into tbl_customer (id, owner, name, website, 
       phone, create_by, create_time, 
       edit_by, edit_time, contact_summary, 

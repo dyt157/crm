@@ -1,6 +1,6 @@
 package com.bjpowernode.crm.workbench.pojo;
 
-public class customerRemark {
+public class CustomerRemark {
     private String id;
 
     private String noteContent;

@@ -36,6 +36,70 @@ request.getServerPort()+request.getContextPath()+"/";
 					$("#create-transaction2").hide(200);
 				}
 			});
+
+			$("#clueConvertBtn").click(function () {
+				//点击转换，发送clueId,刷新整个页面，推荐使用同步请求
+				if($("#isCreateTransaction").prop("checked")){
+					let isCreateTran=true
+					let money = $("#amountOfMoney").val();
+					let name = $("#tradeName").val().substr($("#tradeName").val().indexOf("-")+1)
+					let expectedDate = $("#expectedClosingDate").val()
+					let stage = $("#stage").val()
+					let activityId = $("#activity").attr("activityid")
+					let tranStr = "clueId=${clue.id}"
+					tranStr+="&isCreateTran="+isCreateTran
+					tranStr+="&money="+money
+					tranStr+="&name="+name
+					tranStr+="&expectedDate="+expectedDate
+					tranStr+="&stage="+stage
+					tranStr+="&activityId="+activityId
+					// alert(tranStr)
+					window.location.href="workbench/clue/clueConvert?"+tranStr;
+				}else{
+					window.location.href="workbench/clue/clueConvert?clueId=${clue.id}&isCreateTran=false"
+				}
+
+			})
+
+			$("#queryActivityForTran").keyup(function () {
+				//获取市场活动名称
+				let name = this.value.trim()
+				if (name==''){
+					$("#activityTbody").html("")
+					return;
+				}
+				//发送ajax请求
+				$.post("workbench/clue/queryActivityForTran","name="+name+"&clueId=${clue.id}",data=>{
+					if (data.code==="1"){
+						let activityList = data.returnData
+						let activityHtml=''
+						$.each(activityList,function (i, activity) {
+							activityHtml+='<tr>'+
+												'<td><input value="'+activity.id+'" type="radio" name="activity"/></td>'+
+												'<td id="name_'+activity.id+'">'+activity.name+'</td>'+
+												'<td>'+activity.startDate+'</td>'+
+												'<td>'+activity.endDate+'</td>'+
+												'<td>'+activity.owner+'</td>'+
+										   '</tr>'
+						})
+
+						$("#activityTbody").html(activityHtml)
+					}else{
+						$("#activityTbody").html("")
+					}
+				},"json")
+			})
+
+			$("#activityTbody").on("click","[name='activity']",function () {
+				//把活动名称设置在"市场活动源"的文本框中
+				$("#activity").val($("#name_"+this.value).text())
+				//给"市场活动源"标签的activityid属性赋值
+				$("#activity").attr("activityid",this.value)
+				//关闭模态窗口
+				$("#searchActivityModal").modal("hide")
+			})
+
+
 		});
 	</script>
 
@@ -56,7 +120,7 @@ request.getServerPort()+request.getContextPath()+"/";
 					<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
 						<form class="form-inline" role="form">
 						  <div class="form-group has-feedback">
-						    <input type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
+						    <input id="queryActivityForTran" type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
 						    <span class="glyphicon glyphicon-search form-control-feedback"></span>
 						  </div>
 						</form>
@@ -72,8 +136,8 @@ request.getServerPort()+request.getContextPath()+"/";
 								<td></td>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody id="activityTbody">
+							<%--<tr>
 								<td><input type="radio" name="activity"/></td>
 								<td>发传单</td>
 								<td>2020-10-10</td>
@@ -87,6 +151,7 @@ request.getServerPort()+request.getContextPath()+"/";
 								<td>2020-10-20</td>
 								<td>zhangsan</td>
 							</tr>
+							--%>
 						</tbody>
 					</table>
 				</div>
@@ -142,7 +207,7 @@ request.getServerPort()+request.getContextPath()+"/";
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" data-toggle="modal" data-target="#searchActivityModal" style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
-		    <input type="text" class="form-control" id="activity" placeholder="点击上面搜索" readonly>
+		    <input activityid="" type="text" class="form-control" id="activity" placeholder="点击上面搜索" readonly>
 		  </div>
 		</form>
 		
@@ -153,7 +218,7 @@ request.getServerPort()+request.getContextPath()+"/";
 		<b>${clue.owner}</b>
 	</div>
 	<div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
-		<input class="btn btn-primary" type="button" value="转换">
+		<input id="clueConvertBtn" class="btn btn-primary" type="button" value="转换">
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default" type="button" value="取消">
 	</div>

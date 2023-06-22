@@ -15,8 +15,11 @@ public interface ClueRemarkService {
     int saveClueRemark(ClueRemark clueRemark);
 
     List<ClueRemark> queryClueRemarkByClueId(String clueId);
+    List<ClueRemark> queryClueRemarkByClueIdForConvert(String clueId);
 
     int modifyClueRemark(ClueRemark clueRemark);
 
     int deleteClueRemarkById(String id);
+
+    int deleteClueRemarkByClueId(String clueId);
 }

@@ -24,7 +24,7 @@
     delete from tbl_contacts
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <insert id="insert" parameterType="com.bjpowernode.crm.workbench.pojo.Contacts">
+  <insert id="insertContacts" parameterType="com.bjpowernode.crm.workbench.pojo.Contacts">
     insert into tbl_contacts (id, owner, source, 
       customer_id, fullname, appellation, 
       email, mphone, job, 

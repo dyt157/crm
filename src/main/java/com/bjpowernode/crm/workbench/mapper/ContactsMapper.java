@@ -6,7 +6,7 @@ import java.util.List;
 public interface ContactsMapper {
     int deleteByPrimaryKey(String id);
 
-    int insert(Contacts row);
+    int insertContacts(Contacts contacts);
 
     Contacts selectByPrimaryKey(String id);
 
