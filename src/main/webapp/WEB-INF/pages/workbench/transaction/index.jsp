@@ -1,25 +1,89 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+request.getServerPort()+request.getContextPath()+"/";
+%>
 <html>
 <head>
-<meta charset="UTF-8">
-
-<link href="../../jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="../../jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
-
-<script type="text/javascript" src="../../jquery/jquery-1.11.1-min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
-
-<script type="text/javascript">
-
-	$(function(){
-		
-		
-		
-	});
+	<base href="<%=basePath%>">
+	<meta charset="UTF-8">
 	
-</script>
+	<link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
+	<link href="jquery/bs_pagination-master/css/jquery.bs_pagination.min.css" type="text/css" rel="stylesheet"/>
+	
+	<script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
+	<script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
+	<script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
+	<script type="text/javascript">
+	
+		$(function(){
+			//分页展示交易列表
+			//页面其他元素加载完毕后，发送ajax请求获取交易列表
+			queryTranListForPage(1,2)
+
+			
+		});
+
+		function queryTranListForPage(pageNum,pageSize) {
+			$.ajax({
+				url:"workbench/transaction/queryTranForPage",
+				data:{
+					pageNum,
+					pageSize
+				},
+				type:"post",
+				dataType:"json",
+				success:function (data) {
+					if(data.code==="1"){
+						let tranList = data.returnData.tranList
+						let tranCount = data.returnData.tranCount
+						//拼字符串
+						let tranHtml = '';
+						$.each(tranList,function (i,tran){
+							tranHtml+='<tr>'+
+									'<td><input type="checkbox" /></td>'+
+									'<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href=\'workbench/transaction/toDetail?tranId='+tran.id+'\';">'+tran.customerId+'-'+tran.name+'</a></td>'+
+									'<td>'+tran.customerId+'</td>'+
+									'<td>'+tran.stage+'</td>'+
+									'<td>'+tran.type+'</td>'+
+									'<td>'+tran.owner+'</td>'+
+									'<td>'+tran.source+'</td>'+
+									'<td>'+tran.contactsId+'</td>'+
+									'</tr>'
+						})
+						$("#tranTbody").html(tranHtml)
+						//分页插件
+						$("#pageDiv").bs_pagination({
+							currentPage:pageNum,//当前页号,相当于pageNum
+							rowsPerPage:pageSize,//每页显示条数,相当于pageSize
+							totalRows:tranCount,//总条数
+							totalPages:(tranCount%pageSize==0?tranCount/pageSize:tranCount/pageSize+1),  //总页数,必填参数.
+
+							visiblePageLinks:5,//最多可以显示的卡片数
+
+							showGoToPage:true,//是否显示"跳转到"部分,默认true--显示
+							showRowsPerPage:true,//是否显示"每页显示条数"部分。默认true--显示
+							showRowsInfo:true,//是否显示记录的信息，默认true--显示
+
+							//用户每次切换页号，都自动触发本函数;
+							//每次返回切换页号之后的pageNo和pageSize
+							onChangePage: function(event,pageObj) { // returns page_num and rows_per_page after a link has clicked
+								// alert(pageObj.currentPage)
+								queryTranListForPage(pageObj.currentPage,pageObj.rowsPerPage)
+
+							}
+						})
+
+					}
+				}
+			})
+		}
+		
+	</script>
 </head>
 <body>
 
@@ -128,7 +192,7 @@
 			</div>
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 10px;">
 				<div class="btn-group" style="position: relative; top: 18%;">
-				  <button type="button" class="btn btn-primary" onclick="window.location.href='save.html';"><span class="glyphicon glyphicon-plus"></span> 创建</button>
+				  <button type="button" class="btn btn-primary" onclick="window.location.href='workbench/transaction/toSave';"><span class="glyphicon glyphicon-plus"></span> 创建</button>
 				  <button type="button" class="btn btn-default" onclick="window.location.href='edit.html';"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
 				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>
@@ -149,10 +213,10 @@
 							<td>联系人名称</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
+					<tbody id="tranTbody">
+						<%--<tr>
 							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
+							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">动力节点-交易01</a></td>
 							<td>动力节点</td>
 							<td>谈判/复审</td>
 							<td>新业务</td>
@@ -162,19 +226,21 @@
 						</tr>
                         <tr class="active">
                             <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">动力节点-交易01</a></td>
+                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">动力节点-交易01</a></td>
                             <td>动力节点</td>
                             <td>谈判/复审</td>
                             <td>新业务</td>
                             <td>zhangsan</td>
                             <td>广告</td>
                             <td>李四</td>
-                        </tr>
+                        </tr>--%>
 					</tbody>
 				</table>
+				<div id="pageDiv"></div>
 			</div>
-			
-			<div style="height: 50px; position: relative;top: 20px;">
+
+			<%--
+			<div style="height: 50px; position: relative;top: 20px;" >
 				<div>
 					<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
 				</div>
@@ -208,9 +274,9 @@
 					</nav>
 				</div>
 			</div>
-			
+			--%>
 		</div>
-		
+
 	</div>
 </body>
 </html>

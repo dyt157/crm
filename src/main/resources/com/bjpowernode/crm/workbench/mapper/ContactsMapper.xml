@@ -71,4 +71,11 @@
     address
     from tbl_contacts
   </select>
+  <select id="selectContactsByName" resultMap="BaseResultMap">
+    select id, owner, source, customer_id, fullname, appellation, email, mphone, job,
+           create_by, create_time, edit_by, edit_time, description, contact_summary, next_contact_time,
+           address
+    from tbl_contacts
+    where fullname like "%"#{fullname}"%"
+  </select>
 </mapper>

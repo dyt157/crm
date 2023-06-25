@@ -13,4 +13,8 @@ public interface CustomerMapper {
     List<Customer> selectAll();
 
     int updateByPrimaryKey(Customer row);
+
+    List<Customer> selectCustomerByName(String name);
+
+    Customer selectCustomerByFullName(String name);
 }

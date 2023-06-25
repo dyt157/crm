@@ -57,6 +57,7 @@
 <!--        <table tableName="tbl_customer" domainObjectName="Customer"/>-->
 <!--        <table tableName="tbl_customer_remark" domainObjectName="CustomerRemark"/>-->
 <!--        <table tableName="tbl_tran" domainObjectName="Tran"/>-->
-        <table tableName="tbl_tran_remark" domainObjectName="TranRemark"/>
+<!--        <table tableName="tbl_tran_remark" domainObjectName="TranRemark"/>-->
+        <table tableName="tbl_tran_history" domainObjectName="TranHistory"/>
     </context>
 </generatorConfiguration>

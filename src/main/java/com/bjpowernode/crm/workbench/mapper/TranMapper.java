@@ -1,6 +1,8 @@
 package com.bjpowernode.crm.workbench.mapper;
 
 import com.bjpowernode.crm.workbench.pojo.Tran;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface TranMapper {
@@ -8,9 +10,13 @@ public interface TranMapper {
 
     int insertTran(Tran tran);
 
-    Tran selectByPrimaryKey(String id);
+    Tran selectTranById(String id);
 
-    List<Tran> selectAll();
+    List<Tran> selectTranForPage(Integer index,Integer pageSize);
 
     int updateByPrimaryKey(Tran row);
+
+    Integer selectTranCount();
+
+    int updateTranStage(Tran tran);
 }

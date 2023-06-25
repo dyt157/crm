@@ -6,6 +6,7 @@ import com.bjpowernode.crm.workbench.service.CustomerService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Program:CustomerServiceImpl
@@ -20,5 +21,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int saveCustomer(Customer customer) {
         return customerMapper.insertCustomer(customer);
+    }
+
+    @Override
+    public List<Customer> queryCustomerByName(String name) {
+        return customerMapper.selectCustomerByName(name);
+    }
+
+    @Override
+    public Customer queryCustomerByFullName(String fullName) {
+        return customerMapper.selectCustomerByFullName(fullName);
     }
 }

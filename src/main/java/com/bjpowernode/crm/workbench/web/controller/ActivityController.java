@@ -316,6 +316,14 @@ public class ActivityController {
         //可见 MultipartFile对象的创建需要依赖另一个对象（文件解析器对象）
         InputStream is = null;
         try {
+            //第一种方式
+            //以下两步是把发送过来的文件内容，输出到服务器上的一个文件上
+            //File file = new File("D:\\java\\java框架\\CRM项目\\serverDir\\活动测试文件.xls");
+            //activityFile.transferTo(file);
+            //is = new FileInputStream("D:\\java\\java框架\\CRM项目\\serverDir\\活动测试文件.xls");
+            //HSSFWorkbook workbook = new HSSFWorkbook(is);
+
+            //第二种方式,不在服务器上创建一个文件了，直接让activityFile对象和HSSFWorkbook对象“连接”
             //这个输入流是 连通activityFile对象和其它对象的关键
             is = activityFile.getInputStream();
             //HSSFWorkbook workbook = new HSSFWorkbook(is);
@@ -397,6 +405,9 @@ public class ActivityController {
         }
 
     }
+
+
+
 
     @RequestMapping("/toDetail")
     @ResponseBody

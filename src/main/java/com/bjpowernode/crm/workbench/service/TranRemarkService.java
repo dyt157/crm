@@ -13,4 +13,6 @@ import java.util.List;
 public interface TranRemarkService {
 
     int saveTranRemarkList(List<TranRemark> tranRemarkList);
+
+    List<TranRemark> queryTranRemarkByTranId(String tranId);
 }

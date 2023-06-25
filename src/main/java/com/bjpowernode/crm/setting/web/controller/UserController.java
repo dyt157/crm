@@ -102,8 +102,8 @@ public class UserController {
                     //用户需要免登录，创建Cookie并让浏览器保存起来
                     Cookie loginActCookie = new Cookie("loginAct", user.getLoginAct());
                     Cookie loginPwdCookie = new Cookie("loginPwd", user.getLoginPwd());
-                    loginActCookie.setMaxAge(60*60*24);
-                    loginPwdCookie.setMaxAge(60*60*24);
+                    loginActCookie.setMaxAge(60*60*24*5);
+                    loginPwdCookie.setMaxAge(60*60*24*5);
                     loginActCookie.setPath("/");
                     loginPwdCookie.setPath("/");
                     response.addCookie(loginActCookie);

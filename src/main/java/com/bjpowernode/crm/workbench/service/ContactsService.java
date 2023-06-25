@@ -4,6 +4,8 @@ import com.bjpowernode.crm.commons.constant.Constant;
 import com.bjpowernode.crm.workbench.pojo.Contacts;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Program:ContactsService
  * @Description: TODO
@@ -14,4 +16,6 @@ import org.springframework.stereotype.Service;
 public interface ContactsService {
 
     int saveContacts(Contacts contacts);
+
+    List<Contacts> queryContactsByName(String name);
 }

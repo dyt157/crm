@@ -6,6 +6,7 @@ import com.bjpowernode.crm.workbench.service.ContactsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Program:ContactsServiceImpl
@@ -20,5 +21,10 @@ public class ContactsServiceImpl implements ContactsService {
     @Override
     public int saveContacts(Contacts contacts) {
         return contactsMapper.insertContacts(contacts);
+    }
+
+    @Override
+    public List<Contacts> queryContactsByName(String name) {
+        return contactsMapper.selectContactsByName(name);
     }
 }

@@ -13,4 +13,6 @@ public interface ContactsMapper {
     List<Contacts> selectAll();
 
     int updateByPrimaryKey(Contacts row);
+
+    List<Contacts> selectContactsByName(String name);
 }

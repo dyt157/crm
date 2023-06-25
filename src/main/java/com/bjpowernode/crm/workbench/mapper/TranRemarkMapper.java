@@ -11,7 +11,7 @@ public interface TranRemarkMapper {
 
     TranRemark selectByPrimaryKey(String id);
 
-    List<TranRemark> selectAll();
+    List<TranRemark> selectTranRemarkByTranId(String tranId);
 
     int updateByPrimaryKey(TranRemark row);
 }

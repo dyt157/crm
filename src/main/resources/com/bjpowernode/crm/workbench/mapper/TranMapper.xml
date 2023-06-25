@@ -60,17 +60,78 @@
       next_contact_time = #{nextContactTime,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select id, owner, money, name, expected_date, customer_id, stage, type, source, activity_id, 
-    contacts_id, create_by, create_time, edit_by, edit_time, description, contact_summary, 
-    next_contact_time
-    from tbl_tran
-    where id = #{id,jdbcType=CHAR}
+  <update id="updateTranStage">
+    update tbl_tran
+    set stage=#{stage},edit_by=#{editBy},edit_time=#{editTime}
+    where id=#{id};
+  </update>
+  <select id="selectTranById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+      t.id,
+      u.name owner,
+      t.money,
+      t.name,
+      t.expected_date,
+      c.name customer_id,
+      t.stage,
+      t.type,
+      t.source,
+      a.name activity_id,
+      c2.fullname contacts_id,
+      u1.name create_by,
+      t.create_time,
+      u2.name edit_by,
+      t.edit_time,
+      t.description,
+      t.contact_summary,
+      t.next_contact_time
+    from tbl_tran t
+    left join tbl_customer c
+    on t.customer_id = c.id
+    left join tbl_contacts c2
+    on t.contacts_id = c2.id
+    left join tbl_user u
+    on t.owner = u.id
+    left join tbl_user u1
+    on t.create_by = u1.id
+    left join tbl_user u2
+    on t.edit_by = u2.id
+    left join tbl_activity a
+    on t.activity_id = a.id
+    where t.id = #{id,jdbcType=CHAR}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, owner, money, name, expected_date, customer_id, stage, type, source, activity_id, 
-    contacts_id, create_by, create_time, edit_by, edit_time, description, contact_summary, 
-    next_contact_time
+  <select id="selectTranForPage" resultMap="BaseResultMap">
+    select
+        t.id,
+        u.name owner,
+        t.money,
+        t.name,
+        t.expected_date,
+        c.name customer_id,
+        t.stage,
+        t.type,
+        t.source,
+        t.activity_id,
+        c2.fullname contacts_id,
+        t.create_by,
+        t.create_time,
+        t.edit_by,
+        t.edit_time,
+        t.description,
+        t.contact_summary,
+        t.next_contact_time
+    from tbl_tran t
+    left join tbl_customer c
+    on t.customer_id = c.id
+    left join tbl_contacts c2
+    on t.contacts_id = c2.id
+    left join tbl_user u
+    on t.owner = u.id
+    order by t.create_time desc
+    limit #{param1},#{param2}
+  </select>
+  <select id="selectTranCount" resultType="java.lang.Integer">
+    select count(*)
     from tbl_tran
   </select>
 </mapper>

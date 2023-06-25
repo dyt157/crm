@@ -22,4 +22,9 @@ public class TranRemarkServiceImpl implements TranRemarkService {
     public int saveTranRemarkList(List<TranRemark> tranRemarkList) {
         return tranRemarkMapper.insertTranRemarkList(tranRemarkList);
     }
+
+    @Override
+    public List<TranRemark> queryTranRemarkByTranId(String tranId) {
+        return tranRemarkMapper.selectTranRemarkByTranId(tranId);
+    }
 }
