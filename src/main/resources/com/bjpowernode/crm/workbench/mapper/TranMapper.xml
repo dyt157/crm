@@ -134,4 +134,7 @@
     select count(*)
     from tbl_tran
   </select>
+    <select id="selectPerStageCount" resultType="com.bjpowernode.crm.workbench.pojo.TranStage">
+      select stage name,count(*) value from tbl_tran group by stage
+    </select>
 </mapper>

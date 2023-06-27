@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts测试</title>
+    <!--引入开发包    -->
+    <script type="text/javascript" src="jquery/echarts/echarts.min.js"></script>
+</head>
+<body>
+    <!--准备容器    -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+
+    <script type="text/javascript">
+        let myChart = echarts.init(document.getElementById("main"))
+        let option = {
+            //标题
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            //工具箱
+            toolbox: {
+                feature: {
+                    //数据视图
+                    dataView: {readOnly: false},
+                    //重置，回到最开始的数据
+                    restore: {},
+                    //保存为图片
+                    saveAsImage: {}
+                }
+            },
+            //提示框信息
+            tooltip: {
+                show:true,//默认
+                trigger:'item',//默认
+                formatter:'{a}<br/>{b}:{c}'//提示框内容的格式
+                //模板变量有 {a}, {b}，{c}分别表示系列名，数据名，数据值
+            },
+            //图例
+            legend: {
+                data: ['销量','点击量']
+            },
+            //x轴
+            xAxis: {
+                data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+            },
+            //y轴，因为y轴的数据需要根据实际数据来进行计算（比如每个值之间的间距是多少合适
+            // 这些插件会帮我们进行计算，所以我们只需要提供对应的数值即可）
+            yAxis: {},
+            //系列，可以有多个，也就是x轴上一个值对应多条记录，比如说除了要展示销量，还要展示点击量
+            series: [
+                {
+                    name: '销量', //这个系列的名字
+                    type: 'bar',//这个系列的图形类型，bar：柱状图
+                    left: '10%',
+                    width: '80%',
+                    //数据，需要和xAxis对象中的data属性的值一一对应
+                    data: [5, 20, 36, 10, 10, 20]
+                },
+                {
+                    name: '点击量',
+                    type: 'bar',
+                    data: [10, 49, 67, 33, 35, 55],
+                }
+            ]
+        };
+        //调用工具函数，传入配置对象
+        myChart.setOption(option)
+
+    </script>
+</body>
+</html>

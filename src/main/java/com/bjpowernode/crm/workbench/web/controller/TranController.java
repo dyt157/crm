@@ -12,6 +12,7 @@ import com.bjpowernode.crm.setting.service.UserService;
 import com.bjpowernode.crm.workbench.pojo.*;
 import com.bjpowernode.crm.workbench.service.*;
 //import com.sun.org.apache.xpath.internal.operations.String;
+import org.apache.poi.sl.draw.geom.CosExpression;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -312,19 +313,9 @@ public class TranController {
         return returnObject;
     }
 
-   /* @RequestMapping("/queryTranHistoryByTranId")
-    @ResponseBody
-    public Object queryTranHistoryByTranId(String tranId){
-        List<TranHistory> tranHistoryList = tranHistoryService.queryTranHistoryByTranId(tranId);
-        ReturnObject returnObject = new ReturnObject();
-        if (tranHistoryList!=null&&tranHistoryList.size()>0){
-            returnObject.setCode(Constant.RETURN_CODE_SUCCESS);
-            returnObject.setReturnData(tranHistoryList);
-        }else{
-            returnObject.setCode(Constant.RETURN_CODE_FAIL);
-        }
-        return returnObject;
-    }*/
+
+
+
 
 
 }

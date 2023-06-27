@@ -2,6 +2,7 @@ package com.bjpowernode.crm.workbench.service;
 
 import com.bjpowernode.crm.setting.pojo.User;
 import com.bjpowernode.crm.workbench.pojo.Tran;
+import com.bjpowernode.crm.workbench.pojo.TranStage;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface TranService {
     int modifyTranStage(Tran tran);
 
     Object modifyTranStageInDetail(User user,Tran tran);
+
+    List<TranStage> queryTranStageCount();
 }

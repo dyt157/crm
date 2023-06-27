@@ -10,6 +10,7 @@ import com.bjpowernode.crm.workbench.mapper.TranHistoryMapper;
 import com.bjpowernode.crm.workbench.mapper.TranMapper;
 import com.bjpowernode.crm.workbench.pojo.Tran;
 import com.bjpowernode.crm.workbench.pojo.TranHistory;
+import com.bjpowernode.crm.workbench.pojo.TranStage;
 import com.bjpowernode.crm.workbench.service.TranService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,5 +101,10 @@ public class TranServiceImpl implements TranService {
             returnObject.setMessage(Constant.RETURN_MESSAGE_FAIL);
         }
         return returnObject;
+    }
+
+    @Override
+    public List<TranStage> queryTranStageCount() {
+        return tranMapper.selectPerStageCount();
     }
 }

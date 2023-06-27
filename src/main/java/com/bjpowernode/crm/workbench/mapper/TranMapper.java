@@ -1,9 +1,11 @@
 package com.bjpowernode.crm.workbench.mapper;
 
 import com.bjpowernode.crm.workbench.pojo.Tran;
+import com.bjpowernode.crm.workbench.pojo.TranStage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TranMapper {
     int deleteByPrimaryKey(String id);
@@ -19,4 +21,6 @@ public interface TranMapper {
     Integer selectTranCount();
 
     int updateTranStage(Tran tran);
+
+    List<TranStage> selectPerStageCount();
 }
